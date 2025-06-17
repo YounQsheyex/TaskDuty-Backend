@@ -29,6 +29,20 @@ const newTask = async (req, res) => {
   }
 };
 
+const singleTask = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const task = await TASK.findById(id);
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+    res.status(200).json(task);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const update = async (req, res) => {
   try {
     const id = req.params.id;
@@ -61,4 +75,4 @@ const deleteTask = async (req, res) => {
   }
 };
 
-module.exports = { newTask, create, update, deleteTask };
+module.exports = { newTask, create, update, deleteTask, singleTask };
