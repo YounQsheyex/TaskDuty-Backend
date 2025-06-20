@@ -46,7 +46,7 @@ const singleTask = async (req, res) => {
 const update = async (req, res) => {
   try {
     const id = req.params.id;
-    const { title } = req.body;
+    const { title } = await TASK(req.body);
     const taskAlradyExist = await TASK.findOne({ title });
     const taskExist = await TASK.findById(id);
     if (!taskExist) {
