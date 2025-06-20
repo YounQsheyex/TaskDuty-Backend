@@ -46,9 +46,14 @@ const singleTask = async (req, res) => {
 const update = async (req, res) => {
   try {
     const id = req.params.id;
+    const { title } = req.body;
+    const taskAlradyExist = await TASK.findOne({ title });
     const taskExist = await TASK.findById(id);
     if (!taskExist) {
       return res.status(404).json({ message: "Task not found" });
+    }
+    if (taskAlradyExist) {
+      return res.status(400).json({ message: "Task already exist" });
     }
     const updateTask = await TASK.findByIdAndUpdate(id, req.body, {
       new: true,
